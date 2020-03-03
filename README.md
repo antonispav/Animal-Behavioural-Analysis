@@ -25,6 +25,7 @@ Observational data of a group of sheeps.
 
 ###Input Examples
 1. Dataset
+
 `
 | Date        | Time           | Day  | START  | Behaviour  | Aggressive  | Stereotypic  |  Inactive  | Body posture  | Affiliative  | Activity  | Stress  | Marking  | Reproductive  | Exploratory  |  Maintenance   | Other  | Feeding  | Fear  | Focal end  |  Observer note |
 | ------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|
@@ -78,11 +79,3 @@ Observational data of a group of sheeps.
 | Circling   | Circling      |   Circling |  | Circling |
 | Walking  | Running | Trotting | Circling |
 `
-
-Walking	Running	Trotting	Circling
-standing	standing	standing	standing
-Running	Walking	Walking	Walking
-Trotting	Trotting	Running	Running
-Circling	Circling	Circling	Trotting
-Walking	Running	Trotting	Circling
-end	end	end	end
