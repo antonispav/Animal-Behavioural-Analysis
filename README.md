@@ -71,7 +71,7 @@ Observational data of a group of sheeps.
 | Walking        | Running  | Trotting  | Circling  |
 | ------------- |:-------------:| -----:|------------- |
 | standing  | standing | standing | standing |
-| Running   | Walking   |   Walking |  | Walking |
+| Running   | Walking   |   Walking |  Walking |
 | Trotting  | Trotting | Running | Running |
-| Circling   | Circling |   Circling |  | Circling |
+| Circling   | Circling |   Circling |  Circling |
 | Walking  | Running | Trotting | Circling |
