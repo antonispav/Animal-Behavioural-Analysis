@@ -26,14 +26,14 @@ Observational data of a group of sheeps.
 1. Dataset
 
 
-| Date        | Time           | Day  | START  | Behaviour  | Aggressive  | Stereotypic  |  Inactive  | Body posture  | Affiliative  | Activity  | Stress  | Marking  | Reproductive  | Exploratory  |  Maintenance   | Other  | Feeding  | Fear  | Focal end  |  Observer note |
+| Date        | Time  | Day  | START  | Behaviour  | Aggressive  | Stereotypic  |  Inactive  | Body posture  | Affiliative  | Activity  | Stress  | Marking  | Reproductive  | Exploratory  |  Maintenance   | Other  | Feeding  | Fear  | Focal end  |  Observer note |
 | ------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|
 | 12/3/2018      | 16:30:20 | Monday | Female |
 | 12/3/2018      | 16:30:25      |  Monday | Male | Inactive |   |   | sleeping
 
 
 
-| Date        | Time           | START  | Other  | Activity  | Affiliative  | Aggressive  |  Body posture  | Object  | Fear  | Feeding  | Inactive  | Maintenance  | Reproductive  | Focal end |
+| Date        | Time  | START  | Other  | Activity  | Affiliative  | Aggressive  |  Body posture  | Object  | Fear  | Feeding  | Inactive  | Maintenance  | Reproductive  | Focal end |
 | ------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|------------- |:-------------:| -----:|
 | 16/1/2020      | 10:31:24 | 2150 |
 | 16/1/2020      | 10:31:27      |   2150 |  | Walking |
@@ -71,7 +71,7 @@ Observational data of a group of sheeps.
 | Walking        | Running  | Trotting  | Circling  |
 | ------------- |:-------------:| -----:|------------- |
 | standing  | standing | standing | standing |
-| Running   | Walking      |   Walking |  | Walking |
+| Running   | Walking   |   Walking |  | Walking |
 | Trotting  | Trotting | Running | Running |
-| Circling   | Circling      |   Circling |  | Circling |
+| Circling   | Circling |   Circling |  | Circling |
 | Walking  | Running | Trotting | Circling |
