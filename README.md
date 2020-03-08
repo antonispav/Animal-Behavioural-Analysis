@@ -17,12 +17,12 @@ For each individual we received as an output two tables. The first one included 
 behaviours just by counting the times they were present and the second included the duration
 behaviours and their frequency per day, calculated in seconds.
 
-##Leopard
+## Leopard
 Observational data of two captive leopards was selected.
-##Sheep
+## Sheep
 Observational data of a group of ewes and their lamps.
 
-###Input Examples
+### Input Examples
 1. Dataset
 
 
