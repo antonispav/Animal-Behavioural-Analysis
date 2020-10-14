@@ -117,6 +117,6 @@ if ( dfpoints['SheepID'].str.contains(';', na=False, regex=True).sum() > 0 ) or 
 else:#Other Datasets indicate the end of an observation with the 'end' value, so remove it as we don't need it
     dfdurations = dfdurations.drop(['end',"Behaviours"], axis=1).set_index('Date')
 
-print("Results \n",,dfpoints,"\n\n",dfdurations)
+print("Results \n",dfpoints,"\n\n",dfdurations)
 dfpoints.to_csv("Points.csv" , sep='\t' , encoding='utf-8')
 dfdurations.to_csv("Durations.csv" , sep='\t' , encoding='utf-8')
