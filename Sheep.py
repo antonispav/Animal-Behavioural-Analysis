@@ -15,17 +15,12 @@ def make_delta(entry):
 
 def CalculateTotal(df):
 
-    #In new column("changed_individual") mark with 1 when SheepID is different than previews
-    df['changed_individual'] = df['SheepID'].rolling(2).apply(lambda x: x[0] != x[1]).fillna(1)
-
-    #Count how many SheepID changes we have in the dataset
-    df["value_group"] = df["changed_individual"].cumsum()
+    #In new column("changed_individual") mark with 1 when SheepID is different than previews -> (cumsum) Count how many SheepID changes we have in the Dataset
+    df['changed_individual'] = df['SheepID'].rolling(2).apply(lambda x: x[0] != x[1]).fillna(1).cumsum()
 
     #Make 2 new DataFrames with the starting & ending Date/Time/SheepID/Behaviour of an observation
     startD = df.groupby(['Date',"value_group"],as_index=False).nth(0)
     endD = df.groupby(['Date',"value_group"],as_index=False).nth(-1)
-
-    #print('\n Time : \n', startD.loc[:,"Time"].subtract(endD.loc[:,"Time"]) )#pd.Series(delta.seconds for delta in (startD.Time - endD.Time) ))
 
     #Make a DataFrame with the Date/StartTime/EndTime/SheepID of an observation
     start_end = pd.DataFrame(
