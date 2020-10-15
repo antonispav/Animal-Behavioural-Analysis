@@ -19,8 +19,8 @@ def CalculateTotal(df):
     df['changed_individual'] = df['SheepID'].rolling(2).apply(lambda x: x[0] != x[1]).fillna(1).cumsum()
 
     #Make 2 new DataFrames with the starting & ending Date/Time/SheepID/Behaviour of an observation
-    startD = df.groupby(['Date',"value_group"],as_index=False).nth(0)
-    endD = df.groupby(['Date',"value_group"],as_index=False).nth(-1)
+    startD = df.groupby(['Date',"changed_individual"],as_index=False).nth(0)
+    endD = df.groupby(['Date',"changed_individual"],as_index=False).nth(-1)
 
     #Make a DataFrame with the Date/StartTime/EndTime/SheepID of an observation
     start_end = pd.DataFrame(
@@ -38,8 +38,8 @@ def CalculateTotal(df):
 
     return start_end
 
-# dataset = read_excel("test.ods", engine="odf")
-dataset = pd.read_csv("allatlibitum.csv")
+dataset = read_excel("test.ods", engine="odf")
+#dataset = pd.read_csv("allatlibitum.csv")
 durations = pd.read_csv("durations-not-overlapping.csv")
 points = pd.read_csv("list-of-point-behaviours.csv")
 
