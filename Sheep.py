@@ -38,8 +38,8 @@ def CalculateTotal(df):
 
     return start_end
 
-dataset = read_excel("test.ods", engine="odf")
-#dataset = pd.read_csv("allatlibitum.csv")
+dataset = read_excel("dataantonisMAINTENANCE.ods", engine="odf")
+#dataset = pd.read_csv("dataantonisMAINTENANCE.csv")
 durations = pd.read_csv("durations-not-overlapping.csv")
 points = pd.read_csv("list-of-point-behaviours.csv")
 
@@ -51,6 +51,9 @@ durationsEmpty = pd.DataFrame(columns=durations.columns.tolist())
 #np.unique(np.array([j for sub in [durations[i].tolist() for i in durations.columns] for j in sub]))
 
 #In every row we have the date , time , start(the sheep id), Behaviour and 0-1 Values(0 if new sheep id is starting)
+
+if "Behaviour" in dataset.columns.tolist():
+    dataset = dataset.drop("Behaviour", axis=1)
 
 #Keep in a new column all the values of a row in list format (drop all Null cells)
 dataset['New'] = dataset.apply(lambda x: [val for val in x if not pd.isnull(val)] , axis=1)
@@ -71,8 +74,8 @@ dftotal = CalculateTotal(dfdata)
 
 #Initialise points and duration DataFrame
 dfpoints = pd.DataFrame({"Date":dftotal.index,"SheepID":dftotal.SheepID})
-dfpoints = pd.merge(dfpoints,pointsEmpty,how="left",right_index=True,left_index=True).fillna(0).drop('Date', axis=1)#.reset_index()#.set_index('Date')
-dfdata = dfdata.reset_index()
+dfpoints = pd.merge(dfpoints,pointsEmpty,how="left",right_index=True,left_index=True).fillna(0).drop('Date', axis=1).reset_index().drop_duplicates()
+
 dfdurations = pd.DataFrame(
     {
         "Date":dftotal.index,
@@ -80,13 +83,13 @@ dfdurations = pd.DataFrame(
         "TotalObservation(sec)":dftotal.Total,
     }
 )
-dfdurations = pd.merge(dfdurations,durationsEmpty,how="left",right_index=True,left_index=True).fillna(0).drop('Date', axis=1).reset_index()
+dfdurations = pd.merge(dfdurations,durationsEmpty,how="left",right_index=True,left_index=True).fillna(0).drop('Date', axis=1).reset_index().drop_duplicates()
 
 found = False#Flag for first Duration behaviour
-for _,row in dfdata.iterrows():
+for date,row in dfdata.iterrows():
     #calculate points
     if row['Value'] in points.Point.tolist():
-        dfpoints.loc[dfpoints.SheepID == row['SheepID'],row['Value']] += 1
+        dfpoints.loc[( (dfpoints.SheepID == row['SheepID']) & (dfpoints.Date == date) ),row['Value']] += 1
     #calculate durations
     if (row['Value'] in durations.columns.tolist() ) and not found:#if Value is a Duration
         start_behaviour = row['Value']
@@ -96,8 +99,8 @@ for _,row in dfdata.iterrows():
         stopB_time = row['Time']
         stop_behaviour = row['Value']
         total_seconds = (stopB_time - startB_time).total_seconds()
-        dfdurations.loc[(dfdurations.SheepID == row['SheepID']) & (dfdurations.Date == row['Date']) , start_behaviour] += total_seconds
-        dfdurations.loc[(dfdurations.SheepID == row['SheepID']) & (dfdurations.Date == row['Date']) , "Behaviours"] = str(start_behaviour) + "-" +str(stop_behaviour)
+        dfdurations.loc[(dfdurations.SheepID == row['SheepID']) & (dfdurations.Date == date) , start_behaviour] += total_seconds
+        #dfdurations.loc[(dfdurations.SheepID == row['SheepID']) & (dfdurations.Date == date) , "Behaviours"] = str(start_behaviour) + "-" +str(stop_behaviour)
         start_behaviour = row['Value']
         startB_time = row['Time']
 
@@ -109,9 +112,25 @@ dfpoints['SheepID'] = dfpoints['SheepID'].map(OriginalSheepID)
 if ( dfpoints['SheepID'].str.contains(';', na=False, regex=True).sum() > 0 ) or ( dfdurations['SheepID'].str.contains(';', na=False, regex=True).sum() > 0 ):
     dfpoints[['SheepID1(Actor)','SheepID2(Recipient)']] = dfpoints.SheepID.str.split(pat=";",expand=True,)
     dfdurations[['SheepID1(Actor)','SheepID2(Recipient)']] = dfdurations.SheepID.str.split(pat=";",expand=True,)
+    dfpoints = dfpoints.drop(["SheepID"], axis=1)
+    dfdurations = dfdurations.drop(["SheepID"], axis=1)
+    if "end" in dfpoints.columns.tolist():
+        dfpoints = dfpoints.drop(['end'], axis=1)
+        # dfdurations = dfdurations.drop(['end'], axis=1)
+    if "Behaviours" in dfpoints.columns.tolist():
+        dfpoints = dfpoints.drop(["Behaviours"], axis=1)
+        # dfdurations = dfdurations.drop(["Behaviours"], axis=1)
+    dfpoints = dfpoints.set_index('Date')
+    dfdurations = dfdurations.set_index('Date')
 else:#Other Datasets indicate the end of an observation with the 'end' value, so remove it as we don't need it
-    dfdurations = dfdurations.drop(['end',"Behaviours"], axis=1).set_index('Date')
+    if "end" in dfdurations.columns.tolist():
+        dfdurations = dfdurations.drop(['end'], axis=1)
+    if "Behaviours" in dfdurations.columns.tolist():
+        dfdurations = dfdurations.drop(["Behaviours"], axis=1)
+    if "FOCAL_END" in dfdurations.columns.tolist():
+        dfdurations = dfdurations.drop(["FOCAL_END"], axis=1)
+    dfdurations = dfdurations.set_index('Date')
 
 print("Results \n",dfpoints,"\n\n",dfdurations)
-dfpoints.to_csv("Points.csv" , sep='\t' , encoding='utf-8')
-dfdurations.to_csv("Durations.csv" , sep='\t' , encoding='utf-8')
+dfpoints.to_excel("Points.xlsx")# , sep='\t' , encoding='utf-8')
+dfdurations.to_excel("Durations.xlsx")# , sep='\t' , encoding='utf-8')
